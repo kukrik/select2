@@ -43,6 +43,7 @@ class ExamplesForm extends Form
         // Declare a \QCubed\Event\Change to call a ajax action: the lstPersons_Change PHP method
         $this->lstSingle->AddAction(new Q\Event\Change(), new Q\Action\Ajax('lstSingle_Change'));
 
+
         // Define the Select2, and create the first listitem as 'Select One'
         $this->lstMultiple = new Q\Plugin\Select2($this);
         $this->lstMultiple->ContainerWidth = 'resolve';
@@ -50,7 +51,6 @@ class ExamplesForm extends Form
         $this->lstMultiple->MinimumResultsForSearch = -1; // If you want to remove the search box, set it to "-1"
 
         $this->lstMultiple->SelectionMode = Q\Control\ListBoxBase::SELECTION_MODE_MULTIPLE;
-        //$this->lstMultiple->AddItem(t('- Select One -'), null);
         $this->lstMultiple->Theme = 'bootstrap';
 
         // Add the items for the select2, pulling in from the Person table

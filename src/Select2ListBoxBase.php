@@ -1,6 +1,6 @@
 <?php
 
-namespace QCubed\Plugin;
+namespace QCubed\Plugin\Select2;
 
 use QCubed as Q;
 use QCubed\Project\Control\ControlBase;
@@ -15,9 +15,9 @@ class Select2ListBoxBase extends Select2ListBoxBaseGen
         return $this->ControlId;
     }
 
-    protected function GetResetButtonHtml()
+    public function getResetButtonHtml()
     {
-        return '';
+        return "";
     }
 }
 

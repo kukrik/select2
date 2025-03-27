@@ -1,6 +1,6 @@
 <?php
 
-namespace QCubed\Plugin;
+namespace QCubed\Plugin\Select2;
 
 use QCubed as Q;
 use QCubed\Control;
@@ -83,6 +83,7 @@ class Select2ListBoxBaseGen extends Q\Project\Control\ListBox
     protected $strPlaceholder = null;
     /** @var callable */
     protected $mixPlaceholderOption = null;
+    /** @var string */
     protected $strSeparator = null;
     /** @var boolean */
     protected $blnAllowClear = null;

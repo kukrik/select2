@@ -8,7 +8,7 @@
  * @see Select2Base
  */
 
-namespace QCubed\Plugin;
+namespace QCubed\Plugin\Select2;
 
 class Select2 extends Select2ListBoxBase
 {
