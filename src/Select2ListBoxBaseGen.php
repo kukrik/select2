@@ -1,6 +1,6 @@
 <?php
 
-namespace QCubed\Plugin\Select2;
+namespace QCubed\Plugin;
 
 use QCubed as Q;
 use QCubed\Control;
