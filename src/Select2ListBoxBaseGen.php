@@ -3,11 +3,9 @@
 namespace QCubed\Plugin;
 
 use QCubed as Q;
-use QCubed\Control;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
 use QCubed\ModelConnector\Param as QModelConnectorParam;
-use QCubed\Project\Control\ControlBase;
 use QCubed\Type;
 
 /**
@@ -22,147 +20,147 @@ use QCubed\Type;
  * @property integer $MinimumInputLength Number of characters necessary to start a search
  * @property integer $MaximumInputLength Number of characters that can be entered for an input
  * @property integer $MinimumResultsForSearch The minimum number of results that must be initially (after opening the dropdown for the first time) populated in order to keep the search field. This is useful for cases where local data is used with just a few results, in which case the search box is not very useful and wastes screen space.
- * @property integer $MaximumSelectionSize The maximum number of items that can be selected in a multi-select control. If this number is less than 1 selection is not limited. Once the number of selected items reaches the maximum specified the contents of the dropdown will be populated by the formatSelectionTooBig function
+ * @property integer $MaximumSelectionSize The maximum number of items that can be selected in a multi-select control. If this number is lower than 1, selection is not limited. Once the number of selected items reaches the maximum specified, the contents of the dropdown will be populated by the formatSelectionTooBig function
  * @property string $Placeholder Initial value that is selected if no other selection is made. The placeholder can also be specified as a data-placeholder attribute on the select or input element that Select2 is attached to.
  * @property mixed $PlaceholderOption When attached to a select resolves the option that should be used as the placeholder. Can either be a function which given the select element should return the option element or a string first to indicate that the first option should be used. This option is useful when Select2's default of using the first option only if it has no value and no text is not suitable.
- * @property string $Separator Separator character or string used to delimit ids in value attribute of the multi-valued selects. The default delimiter is the , character.
- * @property boolean $AllowClear Whether or not a clear button is displayed when the select box has a selection. The button, when clicked, resets the value of the select box back to the placeholder, thus this option is only available when the placeholder is specified.
- * @property boolean $CloseOnSelect If set to false the dropdown is not closed after a selection is made, allowing for rapid selection of multiple items. By default this option is disabled.
- * @property boolean $OpenOnEnter If set to true the dropdown is opened when the user presses the enter key and Select2 is closed. By default this option is enabled.
- * @property callable $Matcher Used to determine whether or not the search term matches an option when a built-in query function is used. The built in query function is used when Select2 is attached to a select, or the local or tags helpers are used.
- * @property callable $SortResults    Used to sort the results list for searching right before display. Useful for sorting matches by relevance to the user's search term. SortResults(results, container, query)
- * @property callable $FormatResultCssClass Function used to add css classes to result elements
+ * @property string $Separator Separator character or string used to delimit IDs in the value attribute of the multivalued selecting. The default delimiter is the character.
+ * @property boolean $AllowClear Whether or not a clear button is displayed when the select box has a selection. The button, when clicked, resets the value of the select box back to the placeholder; thus this option is only available when the placeholder is specified.
+ * @property boolean $CloseOnSelect If set to false, the dropdown is not closed after a selection is made, allowing for rapid selection of multiple items. By default, this option is disabled.
+ * @property boolean $OpenOnEnter If set to true, the dropdown is opened when the user presses the enter key and Select2 is closed. By default, this option is enabled.
+ * @property callable $Matcher Used to determine whether or not the search term matches an option when a built-in query function is used. The built-in query function is used when Select2 is attached to a select, or the local or tags helpers are used.
+ * @property callable $SortResults    Used to sort the result list for searching right before display. Useful for sorting matches by relevance to the user's search term. SortResults(results, container, query)
+ * @property callable $FormatResultCssClass Function used to add CSS classes to result elements
  * @property callable $FormatNoMatches Function used to render the "No matches" message
- * @property callable $FormatSearching Function used to render the "Searching..." message that is displayed while search is in progress
+ * @property callable $FormatSearching Function used to render the "Searching..." message that is displayed while the search is in progress
  * @property callable $FormatInputTooShort Function used to render the "Search input too short" message
- * @property callable $FormatInputTooLong String containing "Search input too long" message, or Function used to render the message. FormatInputTooLong(term, maxLength)
- * @property callable $FormatAjaxError String containing "Loading Failed" message, or Function used to render the message formatAjaxError(jqXHR, textStatus, errorThrown)
+ * @property callable $FormatInputTooLong String containing a "Search input too long" message, or Function used to render the message. FormatInputTooLong(term, maxLength)
+ * @property callable $FormatAjaxError String containing a "Loading Failed" message, or Function used to render the message formatAjaxError(jqXHR, textStatus, errorThrown)
  * @property callable $FormatSelectionTooBig Function used to render the "You cannot select any more choices" message
  * @property callable $FormatLoadMore Function used to render the "Loading more results..." message
- * @property callable $Tokenizer A tokenizer function can process the input typed into the search field after every keystroke and extract and select choices. This is useful, for example, in tagging scenarios where the user can create tags quickly by separating them with a comma or a space instead of pressing enter.
- * @property array $TokenSeparators An array of strings that define token separators for the default tokenizer function. By default, this option is set to an empty array which means tokenization using the default tokenizer is disabled. Usually it is sensible to set this option to a value similar to [",", " "]
+ * @property callable $Tokenizer A tokenizer function can process the input typed into the search field after every keystroke and extract and select choices. This is useful, for example, in tagging scenarios where the user can create tags quickly by separating them with a comma or a space instead of pressing entering.
+ * @property array $TokenSeparators An array of strings that define token separators for the default tokenizer function. By default, this option is set to an empty array, which means tokenization using the default tokenizer is disabled. Usually it is sensible to set this option to a value similar to [",", ""]
  * @property callable $Query Function used to query results for the search term.
- * @property mixed $Ajax Options for the built in ajax query function. This object acts as a shortcut for having to manually write a function that performs ajax requests. The built-in function supports more advanced features such as throttling and dropping out-of-order responses.
- * @property mixed $Data Options for the built in query function that works with arrays.
- * @property mixed $Tags Puts Select2 into 'tagging' mode where the user can add new choices and pre-existing tags are provided via this options attribute which is either an array or a function that returns an array of objects or strings
- * @property mixed $ContainerCss Inline css that will be added to select2's container. Either an object containing css property/value key pairs or a function that returns such an object.
- * @property mixed $ContainerCssClass Css class that will be added to select2's container tag
- * @property mixed $DropdownCss Inline css that will be added to select2's dropdown container. Either an object containing css property/value key pairs or a function that returns such an object.
- * @property mixed $DropdownCssClass Css class that will be added to select2's dropdown container
- * @property boolean $DropdownAutoWidth When set to true attempts to automatically size the width of the dropdown based on content inside.
- * @property mixed $AdaptContainerCssClass    Function that filters/renames css classes as they are copied from the source tag to the select2 container tag. AdaptContainerCssClass(clazz)
- * @property mixed $AdaptDropdownCssClass Function that filters/renames css classes as they are copied from the source tag to the select2 dropdown tag. AdaptDropdownCssClass(clazz)
- * @property callable $EscapeMarkup Function used to post-process markup returned from formatter functions. By default this function escapes html entities to prevent javascript injection.
+ * @property mixed $Ajax Options for the built-in ajax query function. This object acts as a shortcut for having to manually write a function that performs ajax requests. The built-in function supports more advanced features such as throttling and dropping out-of-order responses.
+ * @property mixed $Data Options for the built-in query function that works with arrays.
+ * @property mixed $Tags Puts Select2 into 'tagging' mode where the user can add new choices, and pre-existing tags are provided via this option attribute, which is either an array or a function that returns an array of objects or strings
+ * @property mixed $ContainerCss Inline CSS that will be added to select2's container. Either an object containing CSS property/value key pairs or a function that returns such an object.
+ * @property mixed $ContainerCssClass CSS class that will be added to select2's container tag
+ * @property mixed $DropdownCss Inline CSS that will be added to select2's dropdown container. Either an object containing CSS property/value key pairs or a function that returns such an object.
+ * @property mixed $DropdownCssClass CSS class that will be added to select2's dropdown container
+ * @property boolean $DropdownAutoWidth When set to true, attempts to automatically size the width of the dropdown based on content inside.
+ * @property mixed $AdaptContainerCssClass    Function that filters/renames CSS classes as they are copied from the source tag to the select2 container tag. AdaptContainerCssClass(clazz)
+ * @property mixed $AdaptDropdownCssClass Function that filters/renames CSS classes as they are copied from the source tag to the select2 dropdown tag. AdaptDropdownCssClass(clazz)
+ * @property callable $EscapeMarkup Function used to post-process a markup returned from formatter functions. By default, this function escapes HTML entities to prevent JavaScript injection.
  * @property boolean $SelectOnClose Set to true if you want Select2 to select the currently highlighted option when it is blurred.
- * @property integer $LoadMorePadding Defines how many pixels need to be below the fold before the next page is loaded. The default value is 0 which means the result list needs to be scrolled all the way to the bottom for the next page of results to be loaded. This option can be used to trigger the load sooner, possibly resulting in a smoother user experience.
+ * @property integer $LoadMorePadding Defines how many pixels need to be below the fold before the next page is loaded. The default value is 0, which means the result list needs to be scrolled all the way to the bottom for the next page of results to be loaded. This option can be used to trigger the load sooner, possibly resulting in a smoother user experience.
  * @property callable $NextSearchTerm Function used to determine what the next search term should be.
- * @property callable $DropdownParent  Allows you to customize placement of the dropdown.
+ * @property callable $DropdownParent  Allows you to customize the placement of the dropdown.
  * @property string Language Specify the language used for Select2 messages.
  * @property callable $TemplateResult Customizes the way that search results are rendered.
  * @property callable $TemplateSelection Customizes the way that selections are rendered.
- * @property boolean $ScrollAfterSelect If true, resolves issue for multiselects using closeOnSelect: false that caused the list of results to scroll to the first selection after each select/unselect (see https://github.com/select2/select2/pull/5150). This behaviour was intentional to deal with infinite scroll UI issues (if you need this behavior, set false) but it created an issue with multiselect dropdown boxes of fixed length. This pull request adds a configurable option to toggle between these two desirable behaviours.
- * @property callable $CreateTag Creates a new selectable choice from user's search term. Allows creation of choices not available via the query function. Useful when the user can create choices on the fly, eg for the 'tagging' usecase.
+ * @property boolean $ScrollAfterSelect If true, resolves the issue for multiselects using closeOnSelect: false that caused the list of results to scroll to the first selection after each select/unselect (see https://github.com/select2/select2/pull/5150). This behaviour was intentional to deal with infinite scroll UI issues (if you need this behavior, set false), but it created an issue with multiselect dropdown boxes of fixed length. This pull request adds a configurable option to toggle between these two desirable behaviours.
+ * @property callable $CreateTag Creates a new selectable choice from a user's search term. Allows creation of choices not available via the query function. Useful when the user can create choices on the fly, e.g., for the 'tagging' use case.
  * @property callable $InsertTag Called when select2 is created to allow the user to initialize the selection based on the value of the element select2 is attached to.
  * @property string $Theme Allows you to set the theme.
  */
 class Select2ListBoxBaseGen extends Q\Project\Control\ListBox
 {
-    protected $strJavaScripts = QCUBED_JQUI_JS;
-    protected $strStyleSheets = QCUBED_JQUI_CSS;
-    /** @var string */
-    protected $strContainerWidth = null;
-    /** @var integer */
-    protected $intMinimumInputLength = null;
-    /** @var integer */
-    protected $intMaximumInputLength = null;
-    /** @var integer */
-    protected $intMinimumResultsForSearch = null;
-    /** @var integer */
-    protected $intMaximumSelectionSize = null;
-    /** @var string */
-    protected $strPlaceholder = null;
+    protected string $strJavaScripts = QCUBED_JQUI_JS;
+    protected string $strStyleSheets = QCUBED_JQUI_CSS;
+    /** @var string|null */
+    protected ?string $strContainerWidth = null;
+    /** @var integer|null */
+    protected ?int $intMinimumInputLength = null;
+    /** @var integer|null */
+    protected ?int $intMaximumInputLength = null;
+    /** @var integer|null */
+    protected ?int $intMinimumResultsForSearch = null;
+    /** @var integer|null */
+    protected ?int $intMaximumSelectionSize = null;
+    /** @var string|null */
+    protected ?string $strPlaceholder = null;
     /** @var callable */
-    protected $mixPlaceholderOption = null;
-    /** @var string */
-    protected $strSeparator = null;
+    protected mixed $mixPlaceholderOption = null;
+    /** @var string|null */
+    protected ?string $strSeparator = null;
     /** @var boolean */
-    protected $blnAllowClear = null;
+    protected ?bool $blnAllowClear = null;
     /** @var boolean */
-    protected $blnCloseOnSelect = null;
+    protected ?bool $blnCloseOnSelect = null;
     /** @var boolean */
-    protected $blnOpenOnEnter = null;
+    protected ?bool $blnOpenOnEnter = null;
     /** @var callable */
-    protected $mixMatcher = null;
+    protected mixed $mixMatcher = null;
     /** @var callable */
-    protected $mixSortResults = null;
+    protected mixed $mixSortResults = null;
     /** @var callable */
-    protected $mixFormatResultCssClass = null;
+    protected mixed $mixFormatResultCssClass = null;
     /** @var callable */
-    protected $mixFormatNoMatches = null;
+    protected mixed $mixFormatNoMatches = null;
     /** @var callable */
-    protected $mixFormatSearching = null;
+    protected mixed $mixFormatSearching = null;
     /** @var callable */
-    protected $mixFormatAjaxError = null;
+    protected mixed $mixFormatAjaxError = null;
     /** @var callable */
-    protected $mixFormatInputTooShort = null;
+    protected mixed $mixFormatInputTooShort = null;
     /** @var callable */
-    protected $mixFormatInputTooLong = null;
+    protected mixed $mixFormatInputTooLong = null;
     /** @var callable */
-    protected $mixFormatSelectionTooBig = null;
+    protected mixed $mixFormatSelectionTooBig = null;
     /** @var callable */
-    protected $mixFormatLoadMore = null;
+    protected mixed $mixFormatLoadMore = null;
     /** @var callable */
-    protected $mixTokenizer = null;
-    /** @var array */
-    protected $arrTokenSeparators = null;
+    protected mixed $mixTokenizer = null;
+    /** @var array|null */
+    protected ?array $arrTokenSeparators = null;
     /** @var callable */
-    protected $mixQuery = null;
+    protected mixed $mixQuery = null;
     /** @var mixed */
-    protected $mixAjax = null;
+    protected mixed $mixAjax = null;
     /** @var mixed */
-    protected $mixData = null;
+    protected mixed $mixData = null;
     /** @var mixed */
-    protected $mixTags = null;
+    protected mixed $mixTags = null;
     /** @var mixed */
-    protected $mixContainerCss = null;
+    protected mixed $mixContainerCss = null;
     /** @var mixed */
-    protected $mixContainerCssClass = null;
+    protected mixed $mixContainerCssClass = null;
     /** @var mixed */
-    protected $mixDropdownCss = null;
+    protected mixed $mixDropdownCss = null;
     /** @var mixed */
-    protected $mixDropdownCssClass = null;
+    protected mixed $mixDropdownCssClass = null;
     /** @var boolean */
-    protected $blnDropdownAutoWidth = null;
+    protected ?bool $blnDropdownAutoWidth = null;
     /** @var mixed */
-    protected $mixAdaptContainerCssClass = null;
+    protected mixed $mixAdaptContainerCssClass = null;
     /** @var mixed */
-    protected $mixAdaptDropdownCssClass = null;
+    protected mixed $mixAdaptDropdownCssClass = null;
     /** @var callable */
-    protected $mixEscapeMarkup = null;
+    protected mixed $mixEscapeMarkup = null;
     /** @var boolean */
-    protected $blnSelectOnClose = null;
-    /** @var integer */
-    protected $intLoadMorePadding = null;
+    protected ?bool $blnSelectOnClose = null;
+    /** @var integer|null */
+    protected ?int $intLoadMorePadding = null;
     /** @var callable */
-    protected $mixNextSearchTerm = null;
+    protected mixed $mixNextSearchTerm = null;
     /** @var callable */
-    protected $mixDropdownParent = null;
-    /** @var string */
-    protected $strLanguage = null;
+    protected mixed $mixDropdownParent = null;
+    /** @var string|null */
+    protected ?string $strLanguage = null;
     /** @var callable */
-    protected $mixTemplateResult = null;
+    protected mixed $mixTemplateResult = null;
     /** @var callable */
-    protected $mixTemplateSelection = null;
+    protected mixed $mixTemplateSelection = null;
     /** @var boolean */
-    protected $blnScrollAfterSelect = null;
+    protected ?bool $blnScrollAfterSelect = null;
     /** @var callable */
-    protected $mixCreateTag = null;
+    protected mixed $mixCreateTag = null;
     /** @var callable */
-    protected $mixInsertTag = null;
-    /** @var string */
-    protected $strTheme = null;
+    protected mixed $mixInsertTag = null;
+    /** @var string|null */
+    protected ?string $strTheme = null;
 
-    protected function makeJqOptions()
+    protected function makeJqOptions(): array
     {
         $jqOptions = parent::MakeJqOptions();
         if (!is_null($val = $this->ContainerWidth)) {$jqOptions['width'] = $val;}
@@ -215,13 +213,13 @@ class Select2ListBoxBaseGen extends Q\Project\Control\ListBox
         return $jqOptions;
     }
 
-    public function getJqSetupFunction()
+    public function getJqSetupFunction(): string
     {
         return 'select2';
     }
 
 
-    public function __get($strName)
+    public function __get(string $strName): mixed
     {
         switch ($strName) {
             case 'ContainerWidth': return $this->strContainerWidth;
@@ -281,7 +279,7 @@ class Select2ListBoxBaseGen extends Q\Project\Control\ListBox
         }
     }
 
-    public function __set($strName, $mixValue)
+    public function __set(string $strName, mixed $mixValue): void
     {
         switch ($strName) {
             case 'ContainerWidth':
@@ -664,8 +662,10 @@ class Select2ListBoxBaseGen extends Q\Project\Control\ListBox
      * If this control is attachable to a codegenerated control in a ModelConnector, this function will be
      * used by the ModelConnector designer dialog to display a list of options for the control.
      * @return QModelConnectorParam[]
-     **/
-    public static function getModelConnectorParams()
+     *
+     * @throws \QCubed\Exception\Caller
+     */
+    public static function getModelConnectorParams(): array
     {
         return array_merge(parent::GetModelConnectorParams(), array());
     }

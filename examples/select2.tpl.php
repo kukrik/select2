@@ -9,17 +9,22 @@
         ListBox</a>, but uses Select2.
 </div>
 
-<div style="display: inline-block; width: 50%; float: left;">
-    <h2>Single listbox with Bootrtap theme</h2>
+<div style="display: inline-block; width: 33%; float: left;">
+    <h2>Single listbox with Bootstrap theme</h2>
     <?= _r($this->lstSingle); ?>
 </div>
 
-<div style="display: inline-block; width: 50%; float: left;">
-    <h2>Multiple listbox with Bootrtap theme</h2>
+<div style="display: inline-block; width: 33%; float: left;">
+    <h2>Multiple listbox with Bootstrap theme</h2>
     <?= _r($this->lstMultiple); ?>
 </div>
 
-<div style="clear: both; padding-top: 30px; padding-left: 20%">
+<div style="display: inline-block; width: 33%; float: left;">
+    <h2>Single listbox with an optional group in Bootstrap theme</h2>
+    <?= _r($this->lstProjectPeople); ?>
+</div>
+
+<div style="clear: both; padding-top: 30px; padding-left: 40%">
     Currently Selected: <?= _r($this->lblMessage); ?>
 </div>
 
